@@ -1,16 +1,21 @@
 package org.test.bookpub;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.apache.catalina.filters.RemoteIpFilter;
-import org.springframework.context.annotation.Bean;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.test.bookpub.formatters.BookFormatter;
+import org.test.bookpub.repository.BookRepository;
 
 @Configuration
-public class WebConfiguration {
-    
-    @Bean
-    public RemoteIpFilter remoteIpFilter() {
-        return new RemoteIpFilter();
+public class WebConfiguration extends WebMvcConfigurerAdapter {
+
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new BookFormatter(bookRepository));
     }
-    
 
 }

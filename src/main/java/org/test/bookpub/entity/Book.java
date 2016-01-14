@@ -23,10 +23,10 @@ public class Book {
 
     protected Book() {}
 
-    public Book(Author author, String title, String isbn, Publisher publisher) {
-        this.author = author;
-        this.title = title;
+    public Book(String isbn, String title, Author author, Publisher publisher) {
         this.isbn = isbn;
+        this.title = title;
+        this.author = author;
         this.publisher = publisher;
     }
 
