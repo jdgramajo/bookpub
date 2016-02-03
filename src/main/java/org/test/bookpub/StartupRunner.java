@@ -4,6 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.test.bookpub.entity.Author;
 import org.test.bookpub.entity.Book;
@@ -12,6 +14,7 @@ import org.test.bookpub.repository.AuthorRepository;
 import org.test.bookpub.repository.BookRepository;
 import org.test.bookpub.repository.PublisherRepository;
 
+@Order(Ordered.LOWEST_PRECEDENCE - 15t )
 public class StartupRunner implements CommandLineRunner {
 
     protected final Log logger = LogFactory.getLog(getClass());
