@@ -6,7 +6,8 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("se.transmode.gradle:gradle-docker:1.2")
 	}
 }
 
@@ -14,7 +15,9 @@ apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
+apply plugin: 'application'
+apply plugin: 'docker'
 
 jar {
 	baseName = 'bookpub'
@@ -47,6 +50,12 @@ eclipse {
 		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
 		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
 	}
+}
+
+distDocker {
+	exposePort 8080
+	exposePort 8443
+	addFile "${System.properties['user.home']}/.keystore", "/root/"
 }
 
 task wrapper(type: Wrapper) {
