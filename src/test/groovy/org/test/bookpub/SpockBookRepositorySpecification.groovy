@@ -1,6 +1,7 @@
 package org.test.bookpub
 
 import org.hamcrest.CoreMatchers
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.jdbc.datasource.init.DatabasePopulator
@@ -14,8 +15,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.ConfigurableWebApplicationContext
+import org.test.bookpub.entity.Author
 import org.test.bookpub.entity.Book
+import org.test.bookpub.entity.Publisher
 import org.test.bookpub.repository.BookRepository
+import org.test.bookpub.repository.PublisherRepository
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -82,6 +86,32 @@ class SpockBookRepositorySpecification extends Specification {
         then:
             bookRepository.count() == 3
             savedBook.id > -1
+    }
+
+    @Autowired
+    private PublisherRepository publisherRepository
+
+    def "Test RESTful GET books by publisher"() {
+        setup:
+            Publisher publisher = new Publisher("Strange Books")
+            publisher.setId(999)
+            Book book = new Book("978-1-98765-432-1", "Mystery Book",
+                new Author("John", "Doe"), publisher)
+            publisher.setBooks([book])
+            Mockito.when(publisherRepository.count()).thenReturn(1L)
+            Mockito.when(publisherRepository.findOne(1L)).thenReturn(publisher)
+
+        when:
+            def result = mockMvc.perform(MockMvcRequestBuilders.get("/books/publisher/1"))
+
+        then:
+            result.with {
+                andExpect(MockMvcResultMatchers.status().isOk())
+                andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("Strange Books")))
+            }
+
+        cleanup:
+            Mockito.reset(publisherRepository)
     }
 
 }

@@ -11,7 +11,7 @@ import org.test.bookpub.repository.AuthorRepository;
 import org.test.bookpub.repository.BookRepository;
 import org.test.bookpub.repository.PublisherRepository;
 
-@Order(Ordered.LOWEST_PRECEDENCE - 15 )
+@Order(Ordered.LOWEST_PRECEDENCE - 15)
 public class StartupRunner implements CommandLineRunner {
 
     protected final Log logger = LogFactory.getLog(getClass());
