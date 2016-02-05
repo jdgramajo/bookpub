@@ -27,6 +27,7 @@ public class StartupRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        logger.info("Welcome to Book Catalogue System!");
         /*Author author = new Author("Alex", "Antonov");
         author = authorRepository.save(author);
         Publisher publisher = new Publisher("Packt");
