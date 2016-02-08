@@ -1,0 +1,2 @@
+# Run Listeners
+org.springframework.boot.SpringApplicationRunListener=org.test.bookpub.ApacheCommonsConfigurationApplicationRunListener

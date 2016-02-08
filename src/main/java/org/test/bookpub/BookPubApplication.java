@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.test.bookpub.annotations.UsedForTesting;
 import org.test.bookpubstarter.dbcount.EnableDbCounting;
@@ -21,6 +22,7 @@ public class BookPubApplication {
 	}
 
 	@Bean
+	@Profile("logger")
 	public StartupRunner scheduleRunner() {
 		return new StartupRunner();
 	}
