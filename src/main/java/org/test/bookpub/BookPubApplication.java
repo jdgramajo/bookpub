@@ -1,5 +1,8 @@
 package org.test.bookpub;
 
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -26,5 +29,10 @@ public class BookPubApplication {
 	public StartupRunner scheduleRunner() {
 		return new StartupRunner();
 	}
+
+    @Bean
+    public CommandLineRunner configValuePrinter(@Value("${my.config.value:}") String configValue) {
+        return args -> LogFactory.getLog(getClass()).info("Value of my.config.value property is: " + configValue);
+    }
 
 }

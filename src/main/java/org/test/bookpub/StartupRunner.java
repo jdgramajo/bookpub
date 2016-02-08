@@ -37,7 +37,7 @@ public class StartupRunner implements CommandLineRunner {
         bookRepository.save(book);*/
     }
 
-    @Scheduled(initialDelayString = "${book.counter.delay}", fixedRateString = "${book.counter.delay}")
+    @Scheduled(initialDelayString = "${book.counter.delay}", fixedRateString = "${book.counter.rate}")
     public void run() {
         logger.info("Number of books: " + bookRepository.count());
     }
