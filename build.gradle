@@ -30,6 +30,16 @@ repositories {
 	mavenCentral()
 }
 
+applicationDefaultJvmArgs = [
+    "-Xms128m", "-Xmx128m",
+    "-Dmy.config.value=Gradle"
+]
+
+springBoot {
+    classifier = 'exec'
+    embeddedLaunchScript = file('launch.script')
+    embeddedLaunchScriptProperties = ['jvm_options' : applicationDefaultJvmArgs.join(' ')]
+}
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
