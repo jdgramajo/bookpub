@@ -31,8 +31,8 @@ repositories {
 }
 
 applicationDefaultJvmArgs = [
-    "-Xms128m", "-Xmx128m",
-    "-Dmy.config.value=Gradle"
+    "-Xms128m", "-Xmx128m"//,
+    //"-Dmy.config.value=Gradle"
 ]
 
 springBoot {
