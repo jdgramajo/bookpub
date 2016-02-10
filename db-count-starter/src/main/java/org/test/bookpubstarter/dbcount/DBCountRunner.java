@@ -25,7 +25,7 @@ public class DbCountRunner implements CommandLineRunner {
                     crudRepository.count())));
     }
 
-    private static String getRepositoryName(Class crudRepositoryClass) {
+    protected static String getRepositoryName(Class crudRepositoryClass) {
         for (Class repositoryInterface : crudRepositoryClass.getInterfaces()) {
             if (repositoryInterface.getName().startsWith("org.test.bookpub.repository")) {
                 return repositoryInterface.getSimpleName();

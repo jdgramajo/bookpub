@@ -1,5 +1,9 @@
 package org.test.bookpubstarter.dbcount;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.health.CompositeHealthIndicator;
+import org.springframework.boot.actuate.health.HealthAggregator;
+import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +18,19 @@ public class DbCountAutoConfiguration {
     @ConditionalOnMissingBean
     public DbCountRunner dbCountRunner(Collection<CrudRepository> repositories) {
         return new DbCountRunner(repositories);
+    }
+
+    @Autowired
+    private HealthAggregator healthAggregator;
+
+    @Bean
+    public HealthIndicator dbCountHealthIndicator(Collection<CrudRepository> repositories) {
+        CompositeHealthIndicator compositeHealthIndicator = new CompositeHealthIndicator(healthAggregator);
+        repositories.forEach( r ->
+                compositeHealthIndicator.addHealthIndicator(DbCountRunner.getRepositoryName(r.getClass()),
+                new DbCountHealthIndicator(r))
+        );
+        return compositeHealthIndicator;
     }
 
 }

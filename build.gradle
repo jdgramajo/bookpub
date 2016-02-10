@@ -46,6 +46,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-jdbc')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile project(':db-count-starter')
     compile("commons-configuration:commons-configuration:1.10")
     compile("commons-codec:commons-codec:1.6")
@@ -70,6 +71,16 @@ distDocker {
 	exposePort 8080
 	exposePort 8443
 	addFile "${System.properties['user.home']}/.keystore", "/root/"
+}
+
+bootRun {
+    addResources = false
+}
+
+processResources {
+    filesMatching("**/application.properties") {
+        expand(project.properties)
+    }
 }
 
 task wrapper(type: Wrapper) {
