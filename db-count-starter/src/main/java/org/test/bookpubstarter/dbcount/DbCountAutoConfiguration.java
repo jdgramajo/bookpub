@@ -1,5 +1,6 @@
 package org.test.bookpubstarter.dbcount;
 
+import com.codahale.metrics.MetricRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.CompositeHealthIndicator;
 import org.springframework.boot.actuate.health.HealthAggregator;
@@ -31,6 +32,13 @@ public class DbCountAutoConfiguration {
                 new DbCountHealthIndicator(r))
         );
         return compositeHealthIndicator;
+    }
+
+    @Bean
+    public DbCountMetrics dbCountMetrics(Collection<CrudRepository> repositories, MetricRegistry registry) {
+        DbCountMetrics dbCountMetrics = new DbCountMetrics(repositories);
+        registry.registerAll(dbCountMetrics);
+        return dbCountMetrics;
     }
 
 }
